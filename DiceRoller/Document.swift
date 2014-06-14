@@ -9,11 +9,14 @@
 import Cocoa
 
 class Document: NSDocument {
-                            
+    
+    var die: Dice
+    
     init() {
+        die = Dice(sides: 20)
+        die.sides = 8
         super.init()
         // Add your subclass-specific initialization here.
-                                    
     }
 
     override func windowControllerDidLoadNib(aController: NSWindowController) {
@@ -47,7 +50,20 @@ class Document: NSDocument {
         outError.memory = NSError.errorWithDomain(NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         return false
     }
+    
+    @IBOutlet var roller : NSButton
+    @IBOutlet var segment: NSSegmentedControl
+    @IBOutlet var result : NSTextField
+    
+    @IBAction func rollIt(sender: NSButton) -> Void {
+        println("rolled: \(die.roll())")
+    }
+    
+    @IBAction func sidesChanged(sender : NSSegmentedControl) {
+        die.sides = sender.labelForSegment(sender.selectedSegment).toInt()!
+    }
 
 
 }
+
 
